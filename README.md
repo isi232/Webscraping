@@ -1,7 +1,6 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import
-ChromeDriverManager
+from webdriver_manager.chrome import ChromeDriverManager
 from bs4 import BeautifulSoup
 from openpyxl import Workbook
 import time
@@ -31,8 +30,15 @@ for product in products:
     title = title_tag.get_text(strip=True) if title_tag else ""
     price = price_tag.get_text(strip=True) if price_tag else ""
 
-    if title:
-        ws.append([title, price])
+    if price:
+        price = price.replace("₼", "").replace(" ", "").replace(",", "").strip()
 
-wb.save("tapaz_mercedes_qiymetler.xlsx")
-print("Hazırdır: tapaz_mercedes_qiymetler.xlsx")
+        try:
+            price_value = int(price)
+            if 20000 <= price_value <= 30000:
+                ws.append([title, price])
+        except ValueError:
+            continue
+
+wb.save("tapaz_mercedes_qiymetler_20k_30k.xlsx")
+print("Hazırdır: tapaz_mercedes_qiymetler_20k_30k.xlsx") 

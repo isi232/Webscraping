@@ -41,4 +41,4 @@ for product in products:
             continue
 
 wb.save("tapaz_mercedes_qiymetler_20k_30k.xlsx")
-print("Hazırdır: tapaz_mercedes_qiymetler_20k_30k.xlsx") 
+print("Hazırdır: tapaz_mercedes_qiymetler_20k_30k.xlsx

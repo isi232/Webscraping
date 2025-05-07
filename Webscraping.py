@@ -5,6 +5,9 @@ from bs4 import BeautifulSoup
 from openpyxl import Workbook
 import time
 
+def extract_digits(text):
+    return ''.join([ch for ch in text if ch in "0123456789"])
+
 options = webdriver.ChromeOptions()
 options.add_argument('--headless')
 driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
@@ -28,11 +31,10 @@ for product in products:
     price_tag = product.find("div", class_="products-i__price")
 
     title = title_tag.get_text(strip=True) if title_tag else ""
-    price = price_tag.get_text(strip=True) if price_tag else ""
+    raw_price = price_tag.get_text(strip=True) if price_tag else ""
+    price = extract_digits(raw_price)
 
     if price:
-        price = price.replace("₼", "").replace(" ", "").replace(",", "").strip()
-
         try:
             price_value = int(price)
             if 20000 <= price_value <= 30000:
@@ -41,4 +43,4 @@ for product in products:
             continue
 
 wb.save("tapaz_mercedes_qiymetler_20k_30k.xlsx")
-print("Hazırdır: tapaz_mercedes_qiymetler_20k_30k.xlsx
+print("Hazırdır: tapaz_mercedes_qiymetler_20k_30k.xlsx")
